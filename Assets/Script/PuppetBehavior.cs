@@ -13,13 +13,12 @@ public class PuppetBehavior : MonoBehaviour {
 		player = this.GetComponent<PlayerScript> ();
 	}
 
-	public float yawThreshold;
-	public float mouthThreshold;
-	public float rollThreshold;
+	public static float yawThreshold = 15f;
+	public static float mouthThreshold = 8f;
 
 
 	float lastYawFilter = 0, lastMouthOpenFilter = 0;
-	public float alpha;
+	float alpha = 0.5f;
 	float yrotation = 30;
 
 	void OnFaceData(PXCMFaceData.PoseEulerAngles headAngles, float mouthOpen){
@@ -36,7 +35,7 @@ public class PuppetBehavior : MonoBehaviour {
 		if (headAngles != null) {
 			currentYawFilter = alpha * headAngles.yaw + (1 - alpha) * lastYawFilter;
 			//Debug.Log(currentYawFilter);
-			float rx = headAngles.pitch < -rollThreshold ? -30 : 0;
+			//float rx = headAngles.pitch < -rollThreshold ? -30 : 0;
 
 			if (currentYawFilter < -yawThreshold) {
 				ry = yrotation;
@@ -49,7 +48,7 @@ public class PuppetBehavior : MonoBehaviour {
 				yw = 0;
 			}
 
-			transform.rotation = Quaternion.Euler (new Vector3 (rx, ry, 0));
+			transform.rotation = Quaternion.Euler (new Vector3 (0, ry, 0));
 		}
 
 		if (currentMouthOpenFilter > mouthThreshold) {

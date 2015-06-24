@@ -9,6 +9,8 @@ public class GameScript : MonoBehaviour {
 	public Light playerLight, computerLight, mainLight;
 	public GameObject missSign, goodSign;
 	public GameObject endGameDialogPrefab;
+	public GameObject loadingScreen;
+	public GameObject canvas;
 	public Renderer repeatAfter;
 	public Transform signPos;
 
@@ -41,11 +43,16 @@ public class GameScript : MonoBehaviour {
 		computerLight.enabled = false; playerLight.enabled = false;
 	}
 
+	public void MainMenu(){
+		Application.LoadLevel ("menu");
+	}
+
 	public void GameStart(){
 		state = GameState.INIT;
 		tmr = Time.time + 2;
 		repeatAfter.enabled = true;
 		//computerLight.enabled = true;
+		loadingScreen.SetActive (false);
 		goodScore = 0; missScore = 0;
 
 	}
@@ -204,6 +211,7 @@ public class GameScript : MonoBehaviour {
 				state =  GameState.END;
 				EndDialogScript dialog = Instantiate(endGameDialogPrefab).GetComponent<EndDialogScript>();
 				dialog.SetScore(goodScore, missScore);
+				canvas.SetActive (true);
 			} else {
 				mainLight.intensity += Time.deltaTime * glowfactor;
 			}

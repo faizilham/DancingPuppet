@@ -11,7 +11,7 @@ public class FaceInput : MonoBehaviour {
 	public event OnFaceDataDelegate OnFaceData;
 	public event OnColorImageDelegate OnColorImage;
 
-	public GameScript gameController;
+	public GameScript gameController = null;
 
 	private PXCMSenseManager sm=null;
 	bool ready = false;
@@ -98,7 +98,9 @@ public class FaceInput : MonoBehaviour {
 					if (sample != null && sample.color != null)	{
 						OnColorImage(sample.color);
 						if (!ready){
-							ready = true; gameController.GameStart();
+							ready = true; 
+							if (gameController)
+								gameController.GameStart();
 						}
 					}
                 }
